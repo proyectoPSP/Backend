@@ -7,7 +7,6 @@ import java.time.LocalDate;
 @Data
 public class Itinerario {
     private int id;
-    private String usuario;
     private String destino;
     private int dias;
     private double presupuesto;
@@ -16,9 +15,8 @@ public class Itinerario {
 
     public Itinerario() {}
 
-    public Itinerario(int id, String usuario, String destino, int dias, double presupuesto, String contenido) {
+    public Itinerario(int id, String destino, int dias, double presupuesto, String contenido) {
         this.id = id;
-        this.usuario = usuario;
         this.destino = destino;
         this.dias = dias;
         this.presupuesto = presupuesto;
