@@ -54,8 +54,14 @@ public class IAService {
 
             JsonObject jsonResponse = JsonParser.parseString(response).getAsJsonObject();
 
+            JsonArray candidatos = jsonResponse.getAsJsonArray("candidates");
+            JsonObject primerCandidato = candidatos.get(0).getAsJsonObject();
+            JsonArray partes = primerCandidato
+                    .getAsJsonObject("content")
+                    .getAsJsonArray("parts");
+            
+            return partes.get(0).getAsJsonObject().get("text").getAsString();
 
-            return content;
 
         } catch (Exception e) {
             e.printStackTrace();
