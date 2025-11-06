@@ -1,11 +1,11 @@
 package com.proyectopsp.proyectopsp.ai;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 @Service
 public class IAService {
@@ -28,11 +28,18 @@ public class IAService {
                     dias, destino, presupuesto, clima
             );
 
-            JSONObject requestBody = new JSONObject()
-                    .put("contents", new JSONArray()
-                            .put(new JSONObject()
-                                    .put("text", prompt)))
-                    .put("model", "gemini-2.0-flash");
+            JsonObject textObject = new JsonObject();
+            textObject.addProperty("text", prompt);
+
+            JsonArray innerArray = new JsonArray();
+            innerArray.add(textObject);
+
+            JsonArray contentsArray = new JsonArray();
+            contentsArray.add(innerArray);
+
+            JsonObject requestBody = new JsonObject();
+            requestBody.add("contents", contentsArray);
+            requestBody.addProperty("model", "gemini-2.0-flash");
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -41,12 +48,11 @@ public class IAService {
             HttpEntity<String> entity = new HttpEntity<>(requestBody.toString(), headers);
             String response = restTemplate.postForObject(GEMINI_URL, entity, String.class);
 
-            JSONObject jsonResponse = new JSONObject(response);
-            // Ajusta cómo extraes la respuesta según lo que Gemini devuelva
-            String content = jsonResponse
-                    .getJSONArray("responses")
-                    .getJSONObject(0)
-                    .getString("text");
+            JsonObject jsonResponse = new com.google.gson.JsonParser().parse(response).getAsJsonObject();
+            String content = jsonResponse.getAsJsonArray("responses")
+                    .get(0).getAsJsonObject()
+                    .get("text").getAsString();
+
             return content.trim();
 
         } catch (Exception e) {
