@@ -32,15 +32,18 @@ public class ItinerarioController {
         return itinerarioService.getById(id);
     }
 
+    // Desde el body pide los datos de destino, dias y presupuesto y se crea un itinerario con esos datos
     @PostMapping
     public Itinerario crearItinerario(@RequestBody Itinerario itinerario) {
-        // Aqui va la obtencion del clima en base al destino del itinerario
-        // Aqui va la respuesta de la ia en base a el destino, los dias, el presupuesto y el clima
-        String contenido = null;
+        String clima = weatherService.obtenerClima(itinerario.getDestino());
+        String contenido = iaService.generarItinerario(itinerario, clima);
         itinerario.setContenido(contenido);
+
         return itinerarioService.create(itinerario);
     }
 
+
+    //Probablemente se elimine proximamente
     @PutMapping("/{id}")
     public Itinerario actualizarItinerario(@PathVariable int id, @RequestBody Itinerario itinerario) {
         return itinerarioService.update(id, itinerario);
