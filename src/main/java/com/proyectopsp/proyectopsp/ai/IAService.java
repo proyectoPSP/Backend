@@ -10,8 +10,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class IAService {
 
-    @Value("${gemini.api.key}")
-    private String geminiApiKey;
+    private String geminiApiKey="AIzaSyBcD2PCFnILoCi6UlFC3q2eQehcFHCABco";
 
     // Puedes apuntar al endpoint de Gemini
     private static final String GEMINI_URL =
