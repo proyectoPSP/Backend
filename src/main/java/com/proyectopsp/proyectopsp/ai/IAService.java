@@ -2,7 +2,8 @@ package com.proyectopsp.proyectopsp.ai;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import org.springframework.beans.factory.annotation.Value;
+import com.google.gson.JsonParser;
+import com.proyectopsp.proyectopsp.model.Itinerario;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -16,7 +17,7 @@ public class IAService {
     private static final String GEMINI_URL =
             "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
-    public String generarItinerario(String destino, int dias, double presupuesto, String clima) {
+    public String generarItinerario(Itinerario itinerario, String clima) {
         try {
             RestTemplate restTemplate = new RestTemplate();
 
@@ -24,7 +25,7 @@ public class IAService {
                     "Genera un itinerario de viaje de %d días en %s con un presupuesto de %.2f€. " +
                             "El clima será %s. Incluye actividades diarias, recomendaciones de hoteles y precios estimados, " +
                             "en formato de texto normal (no JSON). Escribe de manera clara y organizada.",
-                    dias, destino, presupuesto, clima
+                    itinerario.getDias(), itinerario.getDestino(), itinerario.getPresupuesto(), clima
             );
 
             JsonObject textObject = new JsonObject();
@@ -33,8 +34,12 @@ public class IAService {
             JsonArray innerArray = new JsonArray();
             innerArray.add(textObject);
 
+            JsonObject userContent = new JsonObject();
+            userContent.addProperty("role", "user");
+            userContent.add("parts", innerArray);
+
             JsonArray contentsArray = new JsonArray();
-            contentsArray.add(innerArray);
+            contentsArray.add(userContent);
 
             JsonObject requestBody = new JsonObject();
             requestBody.add("contents", contentsArray);
@@ -47,12 +52,10 @@ public class IAService {
             HttpEntity<String> entity = new HttpEntity<>(requestBody.toString(), headers);
             String response = restTemplate.postForObject(GEMINI_URL, entity, String.class);
 
-            JsonObject jsonResponse = new com.google.gson.JsonParser().parse(response).getAsJsonObject();
-            String content = jsonResponse.getAsJsonArray("responses")
-                    .get(0).getAsJsonObject()
-                    .get("text").getAsString();
+            JsonObject jsonResponse = JsonParser.parseString(response).getAsJsonObject();
 
-            return content.trim();
+
+            return content;
 
         } catch (Exception e) {
             e.printStackTrace();
