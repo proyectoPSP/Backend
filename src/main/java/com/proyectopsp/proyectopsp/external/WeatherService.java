@@ -8,8 +8,10 @@ import java.util.Map;
 
 @Service
 public class WeatherService {
-    private static final String API_KEY = "410604c356557d1e216aac8f21d105e6";
 
+    private static final String API_KEY = "410604c356557d1e216aac8f21d105e6";
+    private static final String API_URL = "https://api.openweathermap.org/data/2.5/weather";
+    RestTemplate restTemplate = new RestTemplate();
 
     public String obtenerClima(String destino) {
         String url = "https://api.openweathermap.org/data/2.5/weather?q=" + destino +
