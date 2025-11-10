@@ -44,8 +44,12 @@ public class ItinerarioController {
     //Probablemente se elimine proximamente
     @PutMapping("/{id}")
     public Itinerario actualizarItinerario(@PathVariable int id, @RequestBody Itinerario itinerario) {
+        String clima = weatherService.obtenerClima(itinerario.getDestino());
+        String contenido = iaService.generarItinerario(itinerario, clima);
+        itinerario.setContenido(contenido);
         return itinerarioService.update(id, itinerario);
     }
+
 
     @DeleteMapping("/{id}")
     public boolean eliminarItinerario(@PathVariable int id) {
