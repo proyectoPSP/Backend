@@ -17,13 +17,16 @@ public class WeatherService {
 
         RestTemplate restTemplate = new RestTemplate();
 
-        Map<String, Object> response = restTemplate.getForObject(url, Map.class);
-        if (response != null && response.containsKey("weather")) {
-            var weather = (java.util.List<Map<String, Object>>) response.get("weather");
-            return (String) weather.get(0).get("description");
+        try {
+            Map<String, Object> response = restTemplate.getForObject(url, Map.class);
+            if (response != null && response.containsKey("weather")) {
+                var weather = (java.util.List<Map<String, Object>>) response.get("weather");
+                return (String) weather.get(0).get("description");
+            }
+            return "No disponible";
+        } catch (Exception e) {
+            return "No se ha encontrado la ciudad";
         }
-
-        return "No disponible";
     }
 
 

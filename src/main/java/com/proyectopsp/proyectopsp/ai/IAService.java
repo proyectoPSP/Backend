@@ -22,28 +22,16 @@ public class IAService {
             RestTemplate restTemplate = new RestTemplate();
 
             String prompt = String.format(
-                    "Genera un itinerario de viaje de %d días en %s con un presupuesto de %.2f€. " +
+                    "Eres un asesor de viajes, no respondas como una ia ni saludes, limitate al itinerario. " +
+                            "Genera un itinerario de viaje de %d días en %s con un presupuesto de %.2f€. " +
                             "El clima será %s. Incluye actividades diarias, recomendaciones de hoteles y precios estimados, " +
-                            "en formato de texto normal (no JSON). Escribe de manera clara y organizada.",
-                    itinerario.getDias(), itinerario.getDestino(), itinerario.getPresupuesto(), clima
+                            "en formato de texto normal (no JSON). Escribe de manera clara y organizada. " +
+                            "Además los intereses del usuario son %s, sientete libre de añadir cosas que no sean tan relacionadas con los intereses siempre que sean " +
+                            "adicionales y no intervengan con los intereses.",
+                    itinerario.getDias(), itinerario.getDestino(), itinerario.getPresupuesto(), clima, itinerario.getIntereses()
             );
 
-            JsonObject textObject = new JsonObject();
-            textObject.addProperty("text", prompt);
-
-            JsonArray innerArray = new JsonArray();
-            innerArray.add(textObject);
-
-            JsonObject userContent = new JsonObject();
-            userContent.addProperty("role", "user");
-            userContent.add("parts", innerArray);
-
-            JsonArray contentsArray = new JsonArray();
-            contentsArray.add(userContent);
-
-            JsonObject requestBody = new JsonObject();
-            requestBody.add("contents", contentsArray);
-            requestBody.addProperty("model", "gemini-2.0-flash");
+            JsonObject requestBody = getJsonObject(prompt);
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -67,6 +55,26 @@ public class IAService {
             e.printStackTrace();
             return "Error al generar el itinerario.";
         }
+    }
+
+    private static JsonObject getJsonObject(String prompt) {
+        JsonObject textObject = new JsonObject();
+        textObject.addProperty("text", prompt);
+
+        JsonArray innerArray = new JsonArray();
+        innerArray.add(textObject);
+
+        JsonObject userContent = new JsonObject();
+        userContent.addProperty("role", "user");
+        userContent.add("parts", innerArray);
+
+        JsonArray contentsArray = new JsonArray();
+        contentsArray.add(userContent);
+
+        JsonObject requestBody = new JsonObject();
+        requestBody.add("contents", contentsArray);
+        requestBody.addProperty("model", "gemini-2.0-flash");
+        return requestBody;
     }
 }
 

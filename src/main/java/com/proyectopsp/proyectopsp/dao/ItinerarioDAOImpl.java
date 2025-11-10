@@ -1,7 +1,6 @@
 package com.proyectopsp.proyectopsp.dao;
 
 import com.proyectopsp.proyectopsp.model.Itinerario;
-import com.proyectopsp.proyectopsp.util.IdGenerator;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 
     @Override
     public Itinerario save(Itinerario itinerario) {
-        itinerario.setId(IdGenerator.getNextId());
+        itinerario.setId(nextId++);
         itinerarios.put(itinerario.getId(), itinerario);
         return itinerario;
     }

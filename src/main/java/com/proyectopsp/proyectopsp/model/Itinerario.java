@@ -11,14 +11,16 @@ public class Itinerario {
     private int dias;
     private double presupuesto;
     private String contenido = null; // Itinerario generado por la IA (texto)
+    private String intereses;
     private LocalDate fechaCreacion = LocalDate.now();
 
     public Itinerario() {}
 
-    public Itinerario(int id, String destino, int dias, double presupuesto) {
+    public Itinerario(int id, String destino, int dias, double presupuesto, String intereses) {
         this.id = id;
         this.destino = destino;
         this.dias = dias;
         this.presupuesto = presupuesto;
+        this.intereses = intereses;
     }
 }

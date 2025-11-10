@@ -36,9 +36,7 @@ public class ItinerarioController {
     @PostMapping
     public Itinerario crearItinerario(@RequestBody Itinerario itinerario) {
         String clima = weatherService.obtenerClima(itinerario.getDestino());
-        String contenido = iaService.generarItinerario(itinerario, clima);
-        itinerario.setContenido(contenido);
-
+        itinerario.setContenido(iaService.generarItinerario(itinerario, clima));
         return itinerarioService.create(itinerario);
     }
 
