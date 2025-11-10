@@ -1,6 +1,7 @@
 package com.proyectopsp.proyectopsp.dao;
 
 import com.proyectopsp.proyectopsp.model.Itinerario;
+import com.proyectopsp.proyectopsp.model.Usuario;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -16,6 +17,14 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
     @Override
     public List<Itinerario> findAll() {
         return new ArrayList<>(itinerarios.values());
+    }
+
+    @Override
+    public List<Itinerario> findByUsuario(Usuario usuario) {
+        ArrayList<Itinerario> itinerariosUsuario = new ArrayList<>();
+        for (Itinerario itinerario : itinerarios.values()) {
+
+        }
     }
 
     @Override

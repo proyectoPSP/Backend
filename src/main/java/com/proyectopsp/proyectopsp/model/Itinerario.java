@@ -13,6 +13,7 @@ public class Itinerario {
     private String contenido = null; // Itinerario generado por la IA (texto)
     private String intereses;
     private LocalDate fechaCreacion = LocalDate.now();
+    private int idUsuario;
 
     public Itinerario() {}
 
