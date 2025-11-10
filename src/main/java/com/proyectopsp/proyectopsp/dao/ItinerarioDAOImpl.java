@@ -30,6 +30,7 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
         return itinerario;
     }
 
+    // Posiblemente se elimine mas adelante
     @Override
     public Itinerario update(Integer id, Itinerario itinerario) {
         if (itinerarios.containsKey(id)) {
