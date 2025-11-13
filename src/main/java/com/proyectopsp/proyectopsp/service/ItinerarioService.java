@@ -2,7 +2,9 @@ package com.proyectopsp.proyectopsp.service;
 
 import com.proyectopsp.proyectopsp.dao.ItinerarioDAO;
 import com.proyectopsp.proyectopsp.model.Itinerario;
+import com.proyectopsp.proyectopsp.model.Usuario;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -16,6 +18,10 @@ public class ItinerarioService {
 
     public List<Itinerario> getAll() {
         return itinerarioDAO.findAll();
+    }
+
+    public List<Itinerario> obtenerItinerariosUsuario(Usuario usuario) {
+        return itinerarioDAO.findByUsuario(usuario);
     }
 
     public Itinerario getById(int id) {

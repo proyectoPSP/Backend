@@ -23,8 +23,11 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
     public List<Itinerario> findByUsuario(Usuario usuario) {
         ArrayList<Itinerario> itinerariosUsuario = new ArrayList<>();
         for (Itinerario itinerario : itinerarios.values()) {
-
+            if (itinerario.getIdUsuario() == usuario.getId()) {
+                itinerariosUsuario.add(itinerario);
+            }
         }
+        return itinerariosUsuario;
     }
 
     @Override

@@ -32,6 +32,8 @@ public class ItinerarioController {
         return itinerarioService.getById(id);
     }
 
+    @GetMapping()
+
     // Desde el body pide los datos de destino, dias y presupuesto y se crea un itinerario con esos datos
     @PostMapping
     public Itinerario crearItinerario(@RequestBody Itinerario itinerario) {
