@@ -5,11 +5,11 @@ import lombok.Data;
 
 import java.time.LocalDate;
 
-@Data
-@Entity
+@Data // Crea todos los getters y setters
+@Entity // Define la clase como una entidad para la base de datos
 public class Itinerario {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     private String destino;
@@ -20,7 +20,6 @@ public class Itinerario {
     private LocalDate fechaCreacion = LocalDate.now();
 
     @ManyToOne
+    @JoinColumn(name = "id_usuario") // Se le dice a jpa que el objeto usuario se mapea a la columna id_usuario usando usuario.getId() por defecto
     private Usuario usuario;
-
-    public Itinerario() {}
 }

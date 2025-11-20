@@ -24,4 +24,6 @@ public class BDService {
     public List<Usuario> findAllUsuarios() {
         return usuarioRepo.findAll();
     }
+
+    //public List<Itinerario> findByUsuario(Usuario usuario) { return itinerarioRepo.findByUsuario(usuario); }
 }

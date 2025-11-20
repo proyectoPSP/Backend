@@ -1,5 +1,6 @@
 package com.proyectopsp.proyectopsp.controller;
 
+import com.proyectopsp.proyectopsp.entity.Usuario;
 import com.proyectopsp.proyectopsp.external.IAService;
 import com.proyectopsp.proyectopsp.external.WeatherService;
 import com.proyectopsp.proyectopsp.entity.Itinerario;
@@ -22,16 +23,23 @@ public class ItinerarioController {
         this.weatherService = weatherService;
     }
 
-    @GetMapping
+    /*
+
+    @GetMapping("/itinerarios")
     public List<Itinerario> listarItinerarios() {
         return bdService.findAllItinerarios();
     }
 
-    @GetMapping("/{id}")
-    public Itinerario obtenerItinerario(@PathVariable int id) {
+    @GetMapping("/usuarios")
+    public List<Usuario> listarUsuarios() {
+        return bdService.findAllUsuarios();
     }
 
+    @GetMapping
+    public List<Itinerario> obtenerItinerariosUsuario(@RequestBody Usuario usuario) { return bdService.findByUsuario(usuario); }
+
     // Desde el body pide los datos de destino, dias y presupuesto y se crea un itinerario con esos datos
+    /* No implementado
     @PostMapping
     public Itinerario crearItinerario(@RequestBody Itinerario itinerario) {
         String clima = weatherService.obtenerClima(itinerario.getDestino());
@@ -43,6 +51,7 @@ public class ItinerarioController {
     public boolean eliminarItinerario(@PathVariable int id) {
         return itinerarioService.delete(id);
     }
+    */
 }
 
 

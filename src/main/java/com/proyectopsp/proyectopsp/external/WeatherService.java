@@ -10,9 +10,9 @@ import java.util.Map;
 public class WeatherService {
     public String obtenerClima(String destino) {
         RestTemplate restTemplate = new RestTemplate();
-        String API_KEY = "410604c356557d1e216aac8f21d105e6";
-        String API_URL = "https://api.openweathermap.org/data/2.5/weather";
-        String url = API_URL + "?q=" + destino + "&appid=" + API_KEY + "&lang=es&units=metric";
+        String apiKey = "410604c356557d1e216aac8f21d105e6";
+        String apiUrl = "https://api.openweathermap.org/data/2.5/weather";
+        String url = apiUrl + "?q=" + destino + "&appid=" + apiKey + "&lang=es&units=metric";
 
         try {
             Map<String, Object> response = restTemplate.getForObject(url, Map.class);
