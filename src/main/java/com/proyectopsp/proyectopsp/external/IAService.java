@@ -1,9 +1,9 @@
-package com.proyectopsp.proyectopsp.ai;
+package com.proyectopsp.proyectopsp.external;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.proyectopsp.proyectopsp.model.Itinerario;
+import com.proyectopsp.proyectopsp.entity.Itinerario;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

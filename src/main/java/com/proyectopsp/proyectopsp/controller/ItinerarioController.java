@@ -1,9 +1,9 @@
 package com.proyectopsp.proyectopsp.controller;
 
-import com.proyectopsp.proyectopsp.ai.IAService;
+import com.proyectopsp.proyectopsp.external.IAService;
 import com.proyectopsp.proyectopsp.external.WeatherService;
-import com.proyectopsp.proyectopsp.model.Itinerario;
-import com.proyectopsp.proyectopsp.service.ItinerarioService;
+import com.proyectopsp.proyectopsp.entity.Itinerario;
+import com.proyectopsp.proyectopsp.service.BDService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,46 +12,32 @@ import java.util.List;
 @RequestMapping("/api/itinerarios")
 public class ItinerarioController {
 
-    private final ItinerarioService itinerarioService;
+    private final BDService bdService;
     private final IAService iaService;
     private final WeatherService weatherService;
 
-    public ItinerarioController(ItinerarioService itinerarioService, IAService iaService, WeatherService weatherService) {
-        this.itinerarioService = itinerarioService;
+    public ItinerarioController(BDService bdService, IAService iaService, WeatherService weatherService) {
+        this.bdService = bdService;
         this.iaService = iaService;
         this.weatherService = weatherService;
     }
 
     @GetMapping
     public List<Itinerario> listarItinerarios() {
-        return itinerarioService.getAll();
+        return bdService.findAllItinerarios();
     }
 
     @GetMapping("/{id}")
     public Itinerario obtenerItinerario(@PathVariable int id) {
-        return itinerarioService.getById(id);
     }
-
-    @GetMapping()
 
     // Desde el body pide los datos de destino, dias y presupuesto y se crea un itinerario con esos datos
     @PostMapping
     public Itinerario crearItinerario(@RequestBody Itinerario itinerario) {
         String clima = weatherService.obtenerClima(itinerario.getDestino());
         itinerario.setContenido(iaService.generarItinerario(itinerario, clima));
-        return itinerarioService.create(itinerario);
+        return bdService;
     }
-
-
-    //Probablemente se elimine proximamente
-    @PutMapping("/{id}")
-    public Itinerario actualizarItinerario(@PathVariable int id, @RequestBody Itinerario itinerario) {
-        String clima = weatherService.obtenerClima(itinerario.getDestino());
-        String contenido = iaService.generarItinerario(itinerario, clima);
-        itinerario.setContenido(contenido);
-        return itinerarioService.update(id, itinerario);
-    }
-
 
     @DeleteMapping("/{id}")
     public boolean eliminarItinerario(@PathVariable int id) {
